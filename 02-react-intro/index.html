@@ -5,8 +5,24 @@
 	<title>React Intro</title>
 	<script src="react.development.js"></script>
 	<script src="react-dom.development.js"></script>
+	<script>
+		(function(){
+			window.addEventListener('load', init);
+			var counter = 0;
+
+			function init(){
+				var btnRender = document.getElementById('btnRender');
+				btnRender.addEventListener('click',onBtnRenderClick);
+			}
+			function onBtnRenderClick(){
+				var h1 = React.createElement('h1', { id : 'heading-1'}, 'Welcome to React.js - ' + ++counter)
+				ReactDOM.render(h1, document.getElementById('root'))
+			}
+		})();
+	</script>
 </head>
 <body>
+	<input type="button" value="Render" id="btnRender">
 	<div id="root"></div>
 </body>
 </html>
