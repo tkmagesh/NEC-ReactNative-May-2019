@@ -13,7 +13,7 @@
 			state = { message : '[default greet message]', username : '' };
 
 			onBtnGreetClick = () => {
-				let message = `Hi ${this.state.username}, Have a nice day!`;
+				let message = `Hi ${this.state.username}, ${this.props.msg}`;
 				this.setState({message : message});
 			}
 
@@ -29,13 +29,22 @@
 						<label>User Name:</label>
 						<input type="text" onChange={this.onTxtChange}/>
 						<input type="button" value="Greet" onClick={this.onBtnGreetClick}/>
-						<div>{this.state.message}</div>
+						<GreetMessage data={this.state.message} />
 					</div>
 				)
 			}
 		}
 
-		ReactDOM.render(React.createElement(Greeter),
+		class GreetMessage extends React.Component{
+			render(){
+				return(
+					<div>{this.props.data}</div>
+				)
+			}
+		}
+
+		var greet = 'Have a good day!'
+		ReactDOM.render(<Greeter msg={greet} />,
 			document.getElementById('root'));
 	</script>
 
