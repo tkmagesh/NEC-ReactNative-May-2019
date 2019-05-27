@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator</title>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		class Products extends React.Component{
+			state = {
+				newProductName : '',
+				productNames : []
+			};
+
+			onAddNewClick = () => {
+				let { productNames } = this.state;
+				productNames.push(this.state.newProductName);
+				this.setState({productNames : productNames});
+			}
+			render(){
+				let productItems = this.state.productNames.map((productName, index) => (<li key={index}>{productName}</li>));
+				return(
+					<>
+						<h1>Products</h1>
+						<hr/>
+						<label>Product Name :</label>
+						<input type="text" onChange={evt => this.setState({ newProductName : evt.target.value})}/>
+						<input type="button" value="Add New" onClick={this.onAddNewClick}/>
+						<ol>
+							{productItems}
+						</ol>
+					</>
+				)
+			}
+		}
+		ReactDOM.render(<Products/>, 
+			document.getElementById('root'));
+			
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+	
+
+</body>
+</html>
