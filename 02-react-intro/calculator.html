@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator</title>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		class Calculator extends React.Component{
+			state = {
+				n1 : 0,
+				n2 : 0,
+				result : 0
+			};
+
+			constructor(){
+				super();
+				this.onNumber1Change = this.onNumber1Change.bind(this);
+			}
+
+			onNumber1Change(evt){
+				this.setState({ n1 : parseInt(evt.target.value)});
+			}
+
+			onNumber2Change = (evt) => {
+				this.setState({ n2 : parseInt(evt.target.value)});
+			}
+
+			onAddClick = () => {
+				let { n1, n2 } = this.state;
+				this.setState({result : n1 + n2})
+			}
+
+			onSubtractClick = () => {
+				let { n1, n2 } = this.state;
+				this.setState({result : n1 - n2})
+			}
+			render(){
+				return(
+					<React.Fragment>
+						<h1>Calculator</h1>
+						<hr/>
+						<input type="number" onChange={this.onNumber1Change}/>
+						<input type="number" onChange={this.onNumber2Change}/>
+						<br/>
+						<input type="button" value="Add" onClick={this.onAddClick}/>
+						<input type="button" value="Subtract" onClick={this.onSubtractClick}/>
+						<input type="button" value="Multiply" />
+						<input type="button" value="Divide" />
+						{
+							this.state.result !== 0 ? (<div>{this.state.result}</div>) : null
+						}
+					</React.Fragment>
+				);
+			}
+		}
+		
+		ReactDOM.render(<Calculator/>, 
+			document.getElementById('root'));	
+			
+	</script>
+	<style>
+		body > h1{
+			color : blue
+		}
+	</style>
+</head>
+<body>
+	<div id="root"></div>
+	
+</body>
+</html>
