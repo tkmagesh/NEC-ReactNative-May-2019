@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Timer App</title>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<style>
+		body{
+			margin-left: 50px;
+		}
+		.activity-form{
+			margin : 10px 0px;
+			border-radius: 5px;
+			border : 1px solid gray;
+			padding : 10px;
+		}
+		.activity-form .field{
+			margin-bottom: 10px;
+		}
+		.activity-form label{
+			font-style: bold;
+			display: block;
+		}
+		.activity-list{
+			padding : 10px;
+			border-radius: 5px;
+			border : 1px solid gray;
+		}
+		.activity{
+			padding : 10px;
+			border-radius: 5px;
+			border : 1px solid gray;
+			margin-bottom: 10px;
+		}
+		.activity label{
+			display :block;
+			font-style: bold;
+		}
+		.timer{
+			padding : 10px;
+			font-size: 18pt;
+		}
+		.project-name{
+			font-size: 16pt;
+		}
+		.active{
+			background-color : #90EE90;
+			
+		}
+
+	</style>
+	<script type="text/babel">
+
+		class App extends React.Component{
+			state = { isAddMode : false, list : [] }
+			onNewActivity = (newActivity) => {
+				let { list } = this.state;
+				list.push(newActivity);
+				this.setState({ list : list, isAddMode : false});
+			}
+			onCancel = () => {
+				this.setState({isAddMode : false});
+			}
+			render(){
+				let { isAddMode, list } = this.state;
+
+				let activity_list = list.map((activity,index) => (
+					<Activity key={index} data={activity} />
+				));
+				return(
+					<div>
+					<input type="button" value="Add Activity" onClick={ () => this.setState({isAddMode : true}) }/>
+					{ isAddMode && <ActivityForm addNew={this.onNewActivity} cancel={this.onCancel}/>}
+					{ list.length !== 0 && (
+						<div className="activity-list">
+							{activity_list}
+						</div>
+					)}
+					
+				</div>
+				)
+			}
+		}
+
+		class ActivityForm extends React.Component{
+			state = {
+				newProjectName : '',
+				newActivityName : ''
+			}
+			onSaveClick = () => {
+				let newActivity = {
+					project : this.state.newProjectName,
+					activity : this.state.newActivityName,
+					timeElapsed : 0
+				};
+				this.props.addNew(newActivity);
+			}
+
+			onCancelClick = () => {
+				this.props.cancel();
+			}
+			render(){
+				return(
+					<div className="activity-form">
+						<div className="field">
+							<label>Project Name :</label>
+							<input type="text" onChange={evt => this.setState({newProjectName : evt.target.value}) }/>
+						</div>
+						<div className="field">
+							<label>Activity : </label>
+							<input type="text" onChange={evt => this.setState({newActivityName : evt.target.value}) }/>	
+						</div>
+						<div className="field">
+							<input type="button" value="Save" onClick = {this.onSaveClick }/>
+							<input type="button" value="Cancel" onClick = {this.onCancelClick} />
+						</div>	
+					</div>
+				)
+			}
+		}
+
+		
+
+		class Activity extends React.Component{
+			render(){
+				let { project, activity, timeElapsed } = this.props.data;
+				return(
+					<div className="activity active">
+						<label className="project-name">{project}</label>
+						<label className="activity-name">{activity}</label>
+						<div className="timer">
+							<span> [ {timeElapsed} ] </span>
+						</div>
+						<input type="button" value="Start"/>
+						<input type="button" value="Remove"/>
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(<App/>,
+			document.getElementById('root'));
+	</script>
+</head>
+
+<body>
+	<h1>Timer</h1>
+	<hr>
+	<div id="root">
+		
+	</div>
+</body>
+</html>
