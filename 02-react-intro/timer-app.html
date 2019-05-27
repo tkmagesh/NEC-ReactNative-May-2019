@@ -63,14 +63,21 @@
 			onCancel = () => {
 				this.setState({isAddMode : false});
 			}
+			onRemove = (activity_to_remove) => {
+				let list = this.state.list;
+				list = list.filter(activity => activity !== activity_to_remove);
+				this.setState({list : list});
+			}
 			render(){
 				let { isAddMode, list } = this.state;
 
 				let activity_list = list.map((activity,index) => (
-					<Activity key={index} data={activity} />
+					<Activity key={index} data={activity} remove={this.onRemove}/>
 				));
 				return(
 					<div>
+					<div> Active # : 1</div>
+					<div> Inactive # : 2</div>
 					<input type="button" value="Add Activity" onClick={ () => this.setState({isAddMode : true}) }/>
 					{ isAddMode && <ActivityForm addNew={this.onNewActivity} cancel={this.onCancel}/>}
 					{ list.length !== 0 && (
@@ -124,17 +131,43 @@
 		
 
 		class Activity extends React.Component{
+			state = {
+				started : false,
+				timeElapsed : this.props.data.timeElapsed
+			}
+			
+			onStartClick = () => {
+				this.setState({ started : true });
+				this.state.timer = setInterval(() => {
+					let newState = {timeElapsed : ++this.state.timeElapsed };
+					this.setState(newState)
+				}, 1000);
+				console.log('started - ', this.state);
+			}
+			onPauseClick = () => {
+				this.setState({started : false });
+				clearInterval(this.state.timer);
+			}
+			componentWillUnmount = () => {
+				clearInterval(this.state.timer);	
+				console.log('removed - ', this.state);
+			}
 			render(){
-				let { project, activity, timeElapsed } = this.props.data;
+				let { project, activity} = this.props.data;
 				return(
 					<div className="activity active">
 						<label className="project-name">{project}</label>
 						<label className="activity-name">{activity}</label>
 						<div className="timer">
-							<span> [ {timeElapsed} ] </span>
+							<span> [ {this.state.timeElapsed} ] </span>
 						</div>
-						<input type="button" value="Start"/>
-						<input type="button" value="Remove"/>
+						{ this.state.started ? 
+							<input type="button" value="Pause" onClick={this.onPauseClick} /> 
+							: 
+							<input type="button" value="Start" onClick={this.onStartClick}/>
+						}
+						
+						<input type="button" value="Remove" onClick={() => this.props.remove(this.props.data)}/>
 					</div>
 				)
 			}
