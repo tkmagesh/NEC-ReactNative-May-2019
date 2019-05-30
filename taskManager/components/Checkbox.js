@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
 
 export default class Checkbox extends Component {
 
-  static propTypes = {
+  /*static propTypes = {
     onToggle: PropTypes.func,
     isChecked: PropTypes.bool,
-  }
+  }*/
 
   render() {
     const {onToggle, isChecked} = this.props

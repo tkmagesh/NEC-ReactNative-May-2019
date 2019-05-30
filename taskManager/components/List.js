@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
 
 export default class List extends Component {
 
-  static propTypes = {
+  /*static propTypes = {
     items: PropTypes.array.isRequired,
     onRemoveItem: PropTypes.func.isRequired,
     onToggleItemCompleted: PropTypes.func.isRequired,
-  }
+  }*/
 
   renderItem = (item, i) => {
     const {onToggleItemCompleted, onRemoveItem} = this.props

@@ -24,10 +24,10 @@ const mapStateToProps = (state) => ({
 
 class App extends Component {
 
-  static propTypes = {
+ /* static propTypes = {
     items: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
-  }
+  }*/
 
   addItem = (item) => {
     const {dispatch} = this.props

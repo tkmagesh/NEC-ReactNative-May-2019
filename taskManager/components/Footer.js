@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
 
 export default class Footer extends Component {
 
-  static propTypes = {
+ /* static propTypes = {
     onRemoveCompleted: PropTypes.func,
-  }
+  }*/
 
   render() {
     const {onRemoveCompleted} = this.props

@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
 
 export default class Input extends Component {
 
-  static propTypes = {
+  /*static propTypes = {
     onSubmit: PropTypes.func,
     placeholder: PropTypes.string,
-  }
+  }*/
 
   state = {
     text: '',
